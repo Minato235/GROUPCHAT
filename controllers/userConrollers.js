@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const bcyrpt = require("bcrypt");
+var jwt = require('jsonwebtoken');
 
 exports.addUserToDb = async (req, res) => {
     const {
@@ -8,18 +9,72 @@ exports.addUserToDb = async (req, res) => {
         phone,
         password
     } = req.body
-    const salts=10;
-  const user=await User.findAll({where:{email}})
-if(user.length>0){
-    return res.status(207).json({message:'user already exist'})
-}else{
-    bcyrpt.hash(password,salts,async(err,hash)=>{
-        const data=await User.create({
-            name,email,phone,password:hash
-        })
-        res.status(201).json({
-            newUserDetail:data
-        })
+    const salts = 10;
+    const user = await User.findAll({
+        where: {
+            email
+        }
     })
+    if (user.length > 0) {
+        return res.status(207).json({
+            message: 'user already exist'
+        })
+    } else {
+        bcyrpt.hash(password, salts, async (err, hash) => {
+            const data = await User.create({
+                name,
+                email,
+                phone,
+                password: hash
+            })
+            res.status(201).json({
+                newUserDetail: data
+            })
+        })
+    }
 }
-} 
+
+function getAccessTokenJwt(id, name) {
+    return jwt.sign({
+        userId: id,
+        name: name
+    }, "minato")
+}
+exports.login = async (req, res) => {
+    const {
+        email,
+        password
+    } = req.body;
+    const user = await User.findAll({
+        where: {
+            email
+        }
+    })
+    if(user.length>0){
+        bcyrpt.compare(password,user[0].password,(err,result)=>{
+            if(err){
+                res.status(500).json({
+                    success:false,
+                    message:"User does not exits"
+                })
+            }
+            if(result==true){
+                res.status(200).json({
+                    success:true,
+                    message:"User Login succes 200",
+                    token:getAccessTokenJwt(user[0].id,user[0].name)
+                })
+            }else{
+                return res.status(400).json({
+                    success:false,
+                    message:"User Login Failed !!! check password"
+                })
+            }
+        })
+    }else{
+        res.status(500).json({
+            success:false,
+            message:"User Does not Exits from else"
+        })
+    }
+}
