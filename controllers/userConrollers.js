@@ -9,6 +9,10 @@ exports.addUserToDb = async (req, res) => {
         password
     } = req.body
     const salts=10;
+  const user=await User.findAll({where:{email}})
+if(user.length>0){
+    return res.status(207).json({message:'user already exist'})
+}else{
     bcyrpt.hash(password,salts,async(err,hash)=>{
         const data=await User.create({
             name,email,phone,password:hash
@@ -18,3 +22,4 @@ exports.addUserToDb = async (req, res) => {
         })
     })
 }
+} 

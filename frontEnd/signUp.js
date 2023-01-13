@@ -1,4 +1,4 @@
-function takeUserDeatils(event){
+async function takeUserDeatils(event){
  try{
     event.preventDefault();
     // console.log("inside-takeUserDeatils")
@@ -9,9 +9,16 @@ function takeUserDeatils(event){
     let obj={name,email,phone,password};
     console.log(obj)
 
-    const responce=axios.post("http://localhost:3000/user/signUp",obj);
-    if(responce==200){
+    const responce=await axios.post("http://localhost:3000/user/signUp",obj);
+    console.log(responce.status)
+    if(responce.status==201){
         alert("SignUp Suceess")
+        window.location.href = "login.html"
+
+    }else if(responce.status==207){
+        alert("User exits Please Login")
+        window.location.href = "login.html"
+
     }else{
         alert("Failed to SignUp")
     }
