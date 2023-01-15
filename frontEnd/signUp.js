@@ -7,10 +7,11 @@ async function takeUserDeatils(event){
     let phone=document.getElementById("number").value;
     let password=document.getElementById("pwd").value;
     let obj={name,email,phone,password};
-    console.log(obj)
 
     const responce=await axios.post("http://localhost:3000/user/signUp",obj);
-    console.log(responce.status)
+    // console.log(responce.status);
+
+    
     if(responce.status==201){
         alert("SignUp Suceess")
         window.location.href = "login.html"

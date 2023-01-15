@@ -1,28 +1,39 @@
-<!DOCTYPE html>    
-<html>    
-<head>    
-    <title>Login Form</title>    
-</head>    
-<body>    
-    <h2>Login Page</h2><br>    
-    <div class="login">    
-    <form onsubmit="login1(event)" method="post">    
-        <label for="email"><b>Enter Email : </b></label>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login Form</title>
+</head>
+
+<body>
+    <h2>Login Page</h2><br>
+    <div class="login">
+        <form onsubmit="login1(event)" method="post">
+            <label for="email"><b>Enter Email : </b></label>
             <input type="text" placeholder="Enter Email" id="email">
             <label for="pwd"><b>Password:</b></label>
             <input type="password" placeholder="Enter Password" id="pwd">
-        <button id="login"><b>Log In Here</b></button>
-        <br><br>    
-        <input type="checkbox" id="check">    
-        <span>Remember me</span>    
-        <br><br>    
-        <!-- Forgot <a href="#">Password?</a>     -->
+            <button id="login"><b>Log In Here</b></button>
+            <br><br>
+            <input type="checkbox" id="check">
+            <span>Remember me</span>
+            <br><br>
+            <!-- Forgot <a href="#">Password?</a>     -->
 
-         <a href="signupPAge.html">Don't have account?</a>    
+            <a href="signupPAge.html">Don't have account?</a>
 
-    </form>     
+        </form>
+        <div id="existing"></div>
+
+        <ul id='listOfUsers'></ul>
+
+
+
+
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.2/axios.min.js"></script>
     <script src="login.js"></script>
-</div>    
-</body>    
+    </div>
+</body>
+
 </html>

@@ -50,6 +50,10 @@ exports.login = async (req, res) => {
             email
         }
     })
+    console.log("****************user******************")
+
+    console.log(user)
+
     if(user.length>0){
         bcyrpt.compare(password,user[0].password,(err,result)=>{
             if(err){
@@ -62,7 +66,8 @@ exports.login = async (req, res) => {
                 res.status(200).json({
                     success:true,
                     message:"User Login succes 200",
-                    token:getAccessTokenJwt(user[0].id,user[0].name)
+                    token:getAccessTokenJwt(user[0].id,user[0].name),
+                    name:user[0].name
                 })
             }else{
                 return res.status(400).json({
