@@ -9,10 +9,12 @@ async function login1(e) {
             password
         }
         const responce = await axios.post("http://localhost:3000/user/login", objLogin);
-        console.log(objLogin.email)
+        console.log(responce)
         console.log("*****resonce**");
         console.log(responce.data)
         localStorage.setItem("name1",responce.data.name);
+        localStorage.setItem("token",responce.data.token);
+
         
         console.log(responce.data.name)
 

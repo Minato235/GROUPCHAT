@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const Group = require("../models/message");
+
 const bcyrpt = require("bcrypt");
 var jwt = require('jsonwebtoken');
 
@@ -54,32 +56,49 @@ exports.login = async (req, res) => {
 
     console.log(user)
 
-    if(user.length>0){
-        bcyrpt.compare(password,user[0].password,(err,result)=>{
-            if(err){
+    if (user.length > 0) {
+        bcyrpt.compare(password, user[0].password, (err, result) => {
+            if (err) {
                 res.status(500).json({
-                    success:false,
-                    message:"User does not exits"
+                    success: false,
+                    message: "User does not exits"
                 })
             }
-            if(result==true){
+            if (result == true) {
+                console.log(getAccessTokenJwt(user[0].id, user[0].name))
                 res.status(200).json({
-                    success:true,
-                    message:"User Login succes 200",
-                    token:getAccessTokenJwt(user[0].id,user[0].name),
-                    name:user[0].name
+                    success: true,
+                    message: "User Login succes 200",
+                    token: getAccessTokenJwt(user[0].id, user[0].name),
+                    name: user[0].name
                 })
-            }else{
+            } else {
                 return res.status(400).json({
-                    success:false,
-                    message:"User Login Failed !!! check password"
+                    success: false,
+                    message: "User Login Failed !!! check password"
                 })
             }
         })
-    }else{
+    } else {
         res.status(500).json({
-            success:false,
-            message:"User Does not Exits from else"
+            success: false,
+            message: "User Does not Exits from else"
         })
     }
+}
+
+exports.sendMessage = (req, res) => {
+    req.user.createMessage({
+        messageText: req.body.chatMessageInput
+    }).then(result => {
+        res.status(200).json({
+            message: "message added to db",
+            user: req.user
+        })
+    }).catch(err => {
+        console.log(err)
+        res.status(400).json({
+            message: "Something wen t wrong"
+        })
+    })
 }
