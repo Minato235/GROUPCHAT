@@ -12,7 +12,6 @@ document.getElementById("send").addEventListener("click", () => {
     token=localStorage.getItem("token");
 
     console.log(token)
-    console.log(chatMessageInput)
     let obj = {
         chatMessageInput
     }
@@ -22,7 +21,7 @@ document.getElementById("send").addEventListener("click", () => {
         }
     }).then(result => {
      
-        console.log(result)
+        console.log("********"+result)
 
     }).catch(err => {
         console.log(err)

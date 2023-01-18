@@ -1,7 +1,7 @@
 let jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-exports.authorization = (req, res,next) => {
+exports.authorization = (req,res,next) => {
     console.log("isdiiiiiiiide *** Autho")
 try{
     const token = req.header("Authorization")
