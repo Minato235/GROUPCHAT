@@ -89,7 +89,8 @@ exports.login = async (req, res) => {
 
 exports.sendMessage = (req, res) => {
     req.user.createMessage({
-        messageText: req.body.chatMessageInput
+        messageText: req.body.chatMessageInput,
+        name:req.user.name
     }).then(result => {
         res.status(200).json({
             message: "message added to db",
@@ -101,4 +102,14 @@ exports.sendMessage = (req, res) => {
             message: "Something wen t wrong"
         })
     })
+}
+
+exports.getAllMessages=(req,res)=>{
+Group.findAll({attributes:["messageText","name"]}).then(result=>{
+    console.log("*******************result****************")
+    console.log(result)
+    res.status(200).json({message:"Got messages success fully",result})
+}).catch(err=>{
+    res.status(400).json({message:"Something went wrong"})
+})
 }

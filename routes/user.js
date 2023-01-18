@@ -7,5 +7,7 @@ router.post("/user/sendMessage",middleware.authorization,addUserConstroller.send
 
 router.post("/user/signUp",addUserConstroller.addUserToDb)
 router.post("/user/login",addUserConstroller.login)
+router.get("/user/getAllMessages",addUserConstroller.getAllMessages)
+
 
 module.exports=router;

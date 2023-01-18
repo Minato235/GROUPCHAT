@@ -5,14 +5,13 @@ const div = document.getElementById("chatMessage");
 
 //after
 function showMessageInScreen(chat,name){
-    div.innerHTML+=`<h4>${name}:>${chat}</h4>`
+    div.innerHTML+=`<h4>${name}: ${chat}</h4>`
 }
 
 document.getElementById("send").addEventListener("click", () => {
     token=localStorage.getItem("token");
 
     console.log(token)
-    let chatMessageInput = document.getElementById("chatMessageInput").value;
     console.log(chatMessageInput)
     let obj = {
         chatMessageInput
@@ -22,11 +21,22 @@ document.getElementById("send").addEventListener("click", () => {
             "Authorization": token
         }
     }).then(result => {
-        let name1 = localStorage.getItem("name1");
-        console.log(name1)
-        showMessageInScreen(chatMessageInput, name1)
+     
+        console.log(result)
 
     }).catch(err => {
         console.log(err)
     })
+})
+window.addEventListener("DOMContentLoaded",()=>{
+    console.log("inside DOMContentLoaded")
+    axios.get("http://localhost:3000/user/getAllMessages").then(responce=>{
+        let msg=responce.data.result;
+        msg.forEach(element=>{
+            console.log(element)
+           showMessageInScreen(element.messageText,element.name)
+        })
+
+
+})
 })
