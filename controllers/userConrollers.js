@@ -87,23 +87,19 @@ exports.login = async (req, res) => {
     }
 }
 
-exports.sendMessage = (req, res) => {
+
+exports.sendMessage=(req,res,next)=>{
     req.user.createMessage({
-        messageText: req.body.chatMessageInput,
-        name:req.user.name
-    }).then(result => {
-        res.status(200).json({
-            message: "message added to db",
-            user: req.user
-        })
-    }).catch(err => {
+        messageText:req.body.chatMessageInput,
+        name:req.body.name1
+    }).then(result=>{
+        console.log(result)
+        res.status(200).json({message:"Message added to DB",user:req.user})
+    }).catch(err=>{
         console.log(err)
-        res.status(400).json({
-            message: "Something wen t wrong"
-        })
+        res.status(404).json({message:"something went wrong"})
     })
 }
-
 exports.getAllMessages=(req,res)=>{
 Group.findAll({attributes:["messageText","name"]}).then(result=>{
     console.log("*******************result****************")

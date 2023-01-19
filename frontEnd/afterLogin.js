@@ -10,18 +10,21 @@ function showMessageInScreen(chat,name){
 
 document.getElementById("send").addEventListener("click", () => {
     token=localStorage.getItem("token");
-
-    console.log(token)
+    name1=localStorage.getItem("name1");
+    chatMessageInput=document.getElementById("chatMessageInput").value;
     let obj = {
-        chatMessageInput
+        chatMessageInput,
+        name1
     }
+    console.log(obj)
     axios.post("http://localhost:3000/user/sendMessage",obj,{
         headers: {
             "Authorization": token
         }
     }).then(result => {
      
-        console.log("********"+result)
+        console.log(result)
+        window.location.reload()
 
     }).catch(err => {
         console.log(err)
