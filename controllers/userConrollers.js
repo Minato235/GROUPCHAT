@@ -3,6 +3,7 @@ const Group = require("../models/message");
 
 const bcyrpt = require("bcrypt");
 var jwt = require('jsonwebtoken');
+const { Op } = require("sequelize");
 
 exports.addUserToDb = async (req, res) => {
     const {
@@ -88,24 +89,42 @@ exports.login = async (req, res) => {
 }
 
 
-exports.sendMessage=(req,res,next)=>{
+exports.sendMessage = (req, res, next) => {
     req.user.createMessage({
-        messageText:req.body.chatMessageInput,
-        name:req.body.name1
-    }).then(result=>{
+        messageText: req.body.chatMessageInput,
+        name: req.body.name1
+    }).then(result => {
         console.log(result)
-        res.status(200).json({message:"Message added to DB",user:req.user})
-    }).catch(err=>{
+        res.status(200).json({
+            message: "Message added to DB",
+            user: req.user
+        })
+    }).catch(err => {
         console.log(err)
-        res.status(404).json({message:"something went wrong"})
+        res.status(404).json({
+            message: "something went wrong"
+        })
     })
 }
-exports.getAllMessages=(req,res)=>{
-Group.findAll({attributes:["messageText","name"]}).then(result=>{
-    console.log("*******************result****************")
-    console.log(result)
-    res.status(200).json({message:"Got messages success fully",result})
-}).catch(err=>{
-    res.status(400).json({message:"Something went wrong"})
-})
+exports.getAllMessages = (req, res) => {
+    let lastMessageId = req.query.lastMessage;
+    console.log(lastMessageId)
+    Group.findAll({where:{
+        id: {
+            [Op.gt]: lastMessageId
+        }
+    }
+    }).then(result => {
+        console.log("*******************result****************")
+        console.log(result)
+        res.status(200).json({
+            message: "Got messages success fully",
+            result
+        })
+    }).catch(err => {
+        console.log(err)
+        res.status(400).json({
+            message: "Something went wrong"
+        })
+    })
 }

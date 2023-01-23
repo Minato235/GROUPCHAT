@@ -32,7 +32,9 @@ document.getElementById("send").addEventListener("click", () => {
 })
 window.addEventListener("DOMContentLoaded",()=>{
     console.log("inside DOMContentLoaded")
-    axios.get("http://localhost:3000/user/getAllMessages").then(responce=>{
+    let lastMessage=localStorage.getItem("lastMessage");
+    
+    axios.get(`http://localhost:3000/user/getAllMessages?lastMessage=${lastMessage}`).then(responce=>{
         let msg=responce.data.result;
         msg.forEach(element=>{
             console.log(element)
@@ -42,3 +44,15 @@ window.addEventListener("DOMContentLoaded",()=>{
 
 })
 })
+// setInterval(()=>{
+//     div.innerHTML="";
+//     axios.get("http://localhost:3000/user/getAllMessages").then(responce=>{
+//         let msg=responce.data.result;
+//         msg.forEach(element=>{
+//             console.log(element)
+//            showMessageInScreen(element.messageText,element.name)
+//         })
+
+
+// })
+// },2000)
